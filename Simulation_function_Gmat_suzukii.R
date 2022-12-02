@@ -233,8 +233,14 @@ simul_Null_Gmatrix<-function(ped,G,animalToExtractByPop=NULL){
 
       dimnames(fullpedigreeSample)=list(fullpedigree$animal,colnames(fullpedigree)[grep("BreedingValue",colnames(fullpedigree))])
       random_bv=list()
-      for (pop in 1:nbpop) {
-                 random_bv[[pop]]=fullpedigreeSample[match(animalToExtractByPop[[pop]],rownames(fullpedigreeSample)),,]
+      if(!is.null(animalToExtractByPop)){
+        for (pop in 1:nbpop) {
+                   random_bv[[pop]]=fullpedigreeSample[match(animalToExtractByPop[[pop]],rownames(fullpedigreeSample)),,]
+        }
+      }else{
+        for (pop in 1:nbpop) {
+                  random_bv[[pop]]=fullpedigreeSample[which(fullpedigree$popNum==pop),,,drop=FALSE]   
+        }
       }
  return(random_bv)
 }
